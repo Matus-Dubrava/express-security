@@ -77,3 +77,26 @@ npm install frameguard
 const frameguard = require('frameguard');
 
 app.use(frameguard({ action: 'deny' }));
+
+// ------------------------------------------------------------------
+
+// Another issue may arise when someone uploads a text file to your server which
+// may contain not a plain text but a malicious code, let's say executable
+// javascript that.
+
+// Later when server is asked to retrieve this file, it sends it as a plain text
+// but browser may try to sniff its content and decides that it acutally is a
+// valid JavaScript code and it might get executed, which is definitelly not
+// desired behaviour from our standpoint
+
+// to prevet this from happening, we can use another HTTP header called
+// X-Content-Type-Options and set its value to "no-sniff"
+
+// in our express application, this can be achieved simply by using "helmet"
+// module
+
+npm install helmet
+
+const helmet = require('helmet');
+
+app.use(helmet.noSniff());
